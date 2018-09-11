@@ -18,7 +18,7 @@ type ILogger interface {
 	Error(message string)
 }
 
-// Logger is the information of request context
+// Logger is the logger utility with information of request context
 type Logger struct {
 	Type       string
 	ProcessID  string
@@ -32,7 +32,7 @@ type Logger struct {
 var instance *Logger
 var once sync.Once
 
-// CreateLogger will create the log context from echo context
+// CreateLogger will create the logger with context from echo context
 func CreateLogger(c echo.Context, uuid uuid.IUUID, level log.Level) {
 	once.Do(func() {
 
@@ -58,7 +58,7 @@ func CreateLogger(c echo.Context, uuid uuid.IUUID, level log.Level) {
 	})
 }
 
-// GetLogger return log context
+// GetLogger return logger
 func GetLogger() ILogger {
 	return instance
 }
@@ -75,22 +75,22 @@ func (logger *Logger) getLogFields() log.Fields {
 	}
 }
 
-// Info log info
+// Info log information level
 func (logger *Logger) Info(message string) {
 	log.WithFields(logger.getLogFields()).Info(message)
 }
 
-// Warn log warn
+// Warn log warnning level
 func (logger *Logger) Warn(message string) {
 	log.WithFields(logger.getLogFields()).Warn(message)
 }
 
-// Debug log debug
+// Debug log debug level
 func (logger *Logger) Debug(message string) {
 	log.WithFields(logger.getLogFields()).Debug(message)
 }
 
-// Error log error
+// Error log error level
 func (logger *Logger) Error(message string) {
 	log.WithFields(logger.getLogFields()).Error(message)
 }
