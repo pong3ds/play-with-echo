@@ -4,4 +4,4 @@ glide install
 
 go run main.go
 
-You will see log appear in console and mylog.txt file
+Access localhost:8080 and You will see log appear in console and mylog.txt file
