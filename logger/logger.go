@@ -3,6 +3,7 @@ package logger
 import (
 	"io"
 	"os"
+	"runtime"
 	"sync"
 
 	"github.com/labstack/echo"
@@ -63,7 +64,7 @@ func GetLogger() ILogger {
 	return instance
 }
 
-func (logger *Logger) getLogFields() log.Fields {
+func (logger *Logger) getLogFields(fn string, line int) log.Fields {
 	return log.Fields{
 		"type":        logger.Type,
 		"process_id":  logger.ProcessID,
@@ -72,25 +73,31 @@ func (logger *Logger) getLogFields() log.Fields {
 		"app_id":      logger.AppID,
 		"http_method": logger.HTTPMethod,
 		"endpoint":    logger.EndPoint,
+		"function":    fn,
+		"line":        line,
 	}
 }
 
 // Info log information level
 func (logger *Logger) Info(message string) {
-	log.WithFields(logger.getLogFields()).Info(message)
+	_, fn, line, _ := runtime.Caller(1)
+	log.WithFields(logger.getLogFields(fn, line)).Info(message)
 }
 
 // Warn log warnning level
 func (logger *Logger) Warn(message string) {
-	log.WithFields(logger.getLogFields()).Warn(message)
+	_, fn, line, _ := runtime.Caller(1)
+	log.WithFields(logger.getLogFields(fn, line)).Warn(message)
 }
 
 // Debug log debug level
 func (logger *Logger) Debug(message string) {
-	log.WithFields(logger.getLogFields()).Debug(message)
+	_, fn, line, _ := runtime.Caller(1)
+	log.WithFields(logger.getLogFields(fn, line)).Debug(message)
 }
 
 // Error log error level
 func (logger *Logger) Error(message string) {
-	log.WithFields(logger.getLogFields()).Error(message)
+	_, fn, line, _ := runtime.Caller(1)
+	log.WithFields(logger.getLogFields(fn, line)).Error(message)
 }
