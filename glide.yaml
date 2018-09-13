@@ -6,3 +6,5 @@ import:
   version: ^1.0.6
 - package: github.com/google/uuid
   version: ^1.0.0
+- package: github.com/3dsinteractive/govalidator
+  version: ^9.0.0
